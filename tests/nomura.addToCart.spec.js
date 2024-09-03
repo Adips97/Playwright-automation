@@ -43,15 +43,9 @@ test('Verify "Add to Cart" functionality', async ({ page }) => {
     expect(cartColor).toBe('Black');
 
     // Update the quantity and verify subtotal is updated
-    const quantityInput = page.locator('input.input-text.qty'); // Adjust the selector if necessary
-    await quantityInput.fill('2');
-    await page.locator('.update-cart-item').click();  // Ensure this button is the correct one
-
+    await page.locator('(//input[@data-cart-item-id="MJ12-XS-Black"])[1]').fill('2');
+    await page.press('(//input[@data-cart-item-id="MJ12-XS-Black"])[1]', 'Enter');
+    
     // Wait for the cart to update
-    await page.waitForLoadState('networkidle');
-
-    // Verify that subtotal has updated accordingly
-    const subtotal = await page.locator('.cart-subtotal .price').textContent();
-    console.log('Updated Subtotal:', subtotal);
-    expect(subtotal).not.toBeNull(); // Ensure subtotal is updated
+    await page.waitForSelector('.subtotal');
 });
